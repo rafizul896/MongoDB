@@ -25,7 +25,7 @@ db.test.aggregate([
 
 db.test.aggregate([
     // stage-1
-    {
+    {J
         $group: {
             _id: null,
             totalSalary: {
