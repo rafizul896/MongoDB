@@ -1,0 +1,21 @@
+// $group , $sum , $push aggregation stage
+db.test.aggregate([
+    // stage-1
+    {
+        $group: {
+            _id: '$address.country',
+            count: {
+                $sum: 1
+            },
+            persInfo: { $push: '$$ROOT' }
+        }
+    },
+    // stage-2
+    {
+        $project: {
+            'persInfo.name': 1,
+            'persInfo.email': 1,
+            'persInfo.phone': 1
+        }
+    }
+]).sort({ count: -1 })
