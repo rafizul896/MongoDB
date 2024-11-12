@@ -1,0 +1,58 @@
+// $group , $sum , $push aggregation stage:
+
+db.test.aggregate([
+    // stage-1
+    {
+        $group: {
+            _id: '$address.country',
+            count: {
+                $sum: 1
+            },
+            persInfo: { $push: '$$ROOT' }
+        }
+    },
+    // stage-2
+    {
+        $project: {
+            'persInfo.name': 1,
+            'persInfo.email': 1,
+            'persInfo.phone': 1
+        }
+    }
+]).sort({ count: -1 })
+
+// more about $group & $project:
+
+db.test.aggregate([
+    // stage-1
+    {
+        $group: {
+            _id: null,
+            totalSalary: {
+                $sum: '$salary'
+            },
+            maxSalary: {
+                $max: '$salary'
+            },
+            minSalary: {
+                $min: "$salary"
+            },
+            avgSalary: {
+                $avg: "$salary"
+            }
+        }
+    },
+    // stage-2
+    {
+        $project: {
+            totalSalary: 1,
+            maxSalary: 1,
+            minSalary: 1,
+            avergeSalary: '$avgSalary',
+            rangeSalary: { $subtract: ["$maxSalary", "$minSalary"] }
+        }
+    }
+]);
+
+
+//
