@@ -110,3 +110,14 @@ db.test.aggregate([
     // stage-4
     { $project: { count: 1 } }
 ])
+
+// lookup
+
+db.orders.aggregate([
+   {$lookup: {
+          from: "test",
+          localField: "userId",
+          foreignField: "_id",
+          as: "rafizul"
+        }}
+])
