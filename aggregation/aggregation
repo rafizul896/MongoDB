@@ -121,3 +121,7 @@ db.orders.aggregate([
           as: "rafizul"
         }}
 ])
+
+// indexing => COLLSCAN vs IXSCAN
+
+db.getCollection('messive').createIndex({email: 1})
