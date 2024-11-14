@@ -1,0 +1,53 @@
+// problem: 1
+
+db.messive.aggregate([
+   {$group: {
+       _id: '$favoriteFruit',
+       avgAge: {
+           $avg: '$age'
+       }
+   }},
+   {
+       $sort: {avgAge: -1}
+   }
+])
+
+// problem : 3
+
+db.orders.aggregate([
+    {
+        $facet: {
+            // pipline-1
+            "totalSale": [
+                // stage-1
+                {
+                    $project: {
+                        orderTotal: {
+                            $sum: {
+                                $map: {
+                                    input: '$products',
+                                    as: 'product',
+                                    in: { $multiply: ["$$product.quantity", "$$product.price_per_unit"] }
+                                }
+                            }
+                        },
+                        status: 1
+                    }
+                },
+                // stage-2
+                { $match: { status: 'Shipped' } },
+                // stage-3
+                {
+                    $group: {
+                        _id: null,
+                        totalSales: { $sum: '$orderTotal' },
+                        avgSales: {$avg: '$orderTotal'}
+                    }
+                }
+            ],
+
+        }
+    }
+])
+
+
