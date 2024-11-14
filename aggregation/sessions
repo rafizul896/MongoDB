@@ -12,6 +12,21 @@ db.messive.aggregate([
    }
 ])
 
+// problem -2
+
+db.messive.aggregate([
+    {
+        $group: {
+            _id: "$company",
+            totalBalance: {
+                $sum: { $toDouble: { $substr: ["$balance",1,-1] } }
+            }
+        }
+    },
+    {$sort: {totalBalance: -1}},
+    {$limit: 2}
+])
+
 // problem : 3
 
 db.orders.aggregate([
