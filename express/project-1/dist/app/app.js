@@ -37,7 +37,6 @@ app.get('/', logger, (req, res) => {
 });
 app.post('/', logger, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log(names);
         console.log(req.body);
         res.send('Get Data');
     }

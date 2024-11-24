@@ -31,7 +31,6 @@ app.get('/', logger, (req: Request, res: Response) => {
 
 app.post('/', logger, async (req: Request, res: Response, next: NextFunction) => {
     try {
-        console.log(names);
         console.log(req.body);
         res.send('Get Data');
     } catch (err) {
